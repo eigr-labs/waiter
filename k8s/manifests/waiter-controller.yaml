@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: waiter-controller
+  namespace: waiter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: waiter-controller
+  template:
+    metadata:
+      labels:
+        app: waiter-controller
+    spec:
+      serviceAccountName: waiter-controller
+      containers:
+        - name: waiter-controller
+          image: ghcr.io/eigr-labs/waiter-controller:latest
+          env:
+          - name: WAITER_COOKIE
+            value: "secretcookie"
+          - name: POD_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP

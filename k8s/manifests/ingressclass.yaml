@@ -1,0 +1,13 @@
+apiVersion: networking.k8s.io/v1
+kind: IngressClass
+metadata:
+  name: ingress-waiter
+  labels:
+    app.kubernetes.io/component: controller
+spec:
+  controller: eigr.io/ingress-waiter
+  # The following annotation is required for the Waiter ingress class to be used by the Waiter ingress controller.
+  parameters:
+    apiGroup: eigr.io
+    kind: WaiterIngressClassParameters
+    name: ingress-waiter

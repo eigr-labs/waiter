@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: waiter-worker
+  namespace: waiter
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: waiter-worker
+  template:
+    metadata:
+      labels:
+        app: waiter-worker
+    spec:
+      containers:
+      - name: waiter-worker
+        image: ghcr.io/eigr-labs/waiter-worker:latest
+        env:
+        - name: WAITER_COOKIE
+          value: "secretcookie"
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        ports:
+        - containerPort: 4000
